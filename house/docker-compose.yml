@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: >
+      bash -c "./manage.py collectstatic --noinput && ./manage.py makemigrations && ./manage.py migrate && daphne -b 0.0.0.0 -p 8000 house.wsgi:application"
+    volumes:
+      - .:/app
+      - /home/ubuntu/house/house/static_files:/app/staticfiles
+      - media_volume:/app/media
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+
+  redis:
+    image: redis:latest
+    restart: always
+
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    volumes:
+      - /home/ubuntu/house/house/static_files:/app/staticfiles
+      - media_volume:/app/media
+    depends_on:
+      - web
+
+volumes:
+  postgres_data:
+  media_volume:
