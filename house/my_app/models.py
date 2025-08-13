@@ -26,28 +26,28 @@ class Property(models.Model):
     PROPERTY_TYPE = (
         ('apartment', 'apartment'),
         ('house', 'house'),
-        ('commercial property', 'commercial property'),
+        ('commercial_property', 'commercial_property'),
         ('room', 'room'),
-        ('land plot / lot', 'land plot / lot'),
-        ('summer house / country house', 'summer house / country house'),
-        ('parking space / garage', 'parking space / garage'))
+        ('land_plot_or_lot', 'land_plot_or_lot'),
+        ('summer_house_or_country house', 'summer_house_or_country house'),
+        ('parking_space_or_garage', 'parking_space_or_garage'))
     property_type = CharField(choices=PROPERTY_TYPE)
     CHOICE_REGION = (
         ('Chui', 'Chui'),
         ('Talas', 'Talas'),
-        ('Jalal-Abad', 'Jalal-Abad'),
+        ('Jalal_Abad', 'Jalal_Abad'),
         ('Osh', 'Osh'),
         ('Batken', 'Batken'),
-        ('Ysyk-Kol', 'Ysyk-Kol'),
+        ('Ysyk_Kol', 'Ysyk_Kol'),
         ('Naryn', 'Naryn'))
     region = models.CharField(choices=CHOICE_REGION, max_length=20)
     CHOICE_CITY = (
         ('Bishkek', 'Bishkek'),
         ('Talas', 'Talas'),
-        ('Jalal-Abad', 'Jalal-Abad'),
+        ('Jalal_Abad', 'Jalal_Abad'),
         ('Osh', 'Osh'),
         ('Batken', 'Batken'),
-        ('Kara-Kol', 'Kara-Kol'),
+        ('Kara_Kol', 'Kara_Kol'),
         ('Naryn', 'Naryn'))
     city = models.CharField(choices=CHOICE_CITY, max_length=20)
     district = models.CharField(max_length=100)
