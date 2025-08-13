@@ -29,7 +29,7 @@ class Property(models.Model):
         ('commercial_property', 'commercial_property'),
         ('room', 'room'),
         ('land_plot_or_lot', 'land_plot_or_lot'),
-        ('summer_house_or_country house', 'summer_house_or_country house'),
+        ('summer_house_or_country_house', 'summer_house_or_country_house'),
         ('parking_space_or_garage', 'parking_space_or_garage'))
     property_type = CharField(choices=PROPERTY_TYPE)
     CHOICE_REGION = (
