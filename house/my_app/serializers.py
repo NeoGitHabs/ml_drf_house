@@ -64,12 +64,12 @@ class PropertySerializer(serializers.ModelSerializer):
     seller = UserPublicInfoSerializer(read_only=True)
     class Meta:
         model = Property
-        fields = ('title', 'description', 'property_type', 'region', 'city', 'district', 'address', 'area', 'price', 'rooms', 'images', 'documents', 'seller', 'created_at')
+        fields = ('title', 'description', 'property_type', 'region', 'city', 'district', 'address', 'area', 'price', 'rooms', 'floor', 'total_floors', 'condition', 'images', 'documents', 'seller', 'created_at')
 
 class CreatePropertySerializer(serializers.ModelSerializer):
     class Meta:
         model = Property
-        fields = ('title', 'description', 'property_type', 'region', 'city', 'district', 'address', 'area', 'price', 'rooms', 'images', 'documents', 'seller')
+        fields = ('title', 'description', 'property_type', 'region', 'city', 'district', 'address', 'area', 'price', 'rooms', 'floor', 'total_floors', 'condition', 'images', 'documents', 'seller')
 
 class ReviewSerializer(serializers.ModelSerializer):
     created_at = serializers.DateField(format='%d-%m-%Y %H:%M')

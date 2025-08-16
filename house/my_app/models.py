@@ -15,7 +15,6 @@ class UserProfile(AbstractUser):
         ('buyer', 'buyer')]
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
     created_at = models.DateField(auto_now_add=True)
-    # preferred_language =
 
     def __str__(self):
         return f'{self.username} {self.role}'
@@ -55,6 +54,13 @@ class Property(models.Model):
     area =  models.PositiveIntegerField(choices=[(i, str(i))for i in range(1, 100)], blank=True, null=True)
     price =  models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(9999999999)], default=1)
     rooms =  models.PositiveIntegerField(choices=[(i, str(i))for i in range(1, 16)], blank=True, null=True)
+    floor = models.PositiveIntegerField(choices=[(i, str(i))for i in range(1, 101)], blank=True, null=True)
+    total_floors = models.PositiveIntegerField(choices=[(i, str(i))for i in range(1, 101)], blank=True, null=True)
+    CHOICE_CONDITION = (
+        ('excellent', 'excellent'),
+        ('normal', 'normal'),
+        ('needs_repair', 'needs_repair'))
+    condition = models.CharField(choices=CHOICE_CONDITION, default='excellent', max_length=20, null=True, blank=True)
     images = models.ImageField(upload_to='property_images/')
     documents = models.BooleanField(default=True)
     seller = models.ForeignKey(UserProfile, on_delete=models.CASCADE)

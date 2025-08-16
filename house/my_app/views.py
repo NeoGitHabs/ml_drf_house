@@ -1,16 +1,13 @@
-from rest_framework import generics
-from rest_framework import permissions
+from rest_framework import status, generics, permissions
 from .filters import PropertyFilter,ReviewFilter
 from .models import UserProfile, Property, Review
 from rest_framework.filters import SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend, OrderingFilter
 from .permissions import CheckBuyerRoleReviews, CheckSellerRoleReviews
-from .serializers import UserProfileSerializer, PropertySerializer, ReviewSerializer, CreatePropertySerializer, CreateReviewSerializer
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework import status
-from .serializers import UserSerializer, LoginSerializer
+from .serializers import UserSerializer, LoginSerializer, UserProfileSerializer, PropertySerializer, ReviewSerializer, CreatePropertySerializer, CreateReviewSerializer
 
 
 class RegisterView(generics.CreateAPIView):
@@ -58,21 +55,46 @@ class PropertyAPIView(generics.ListAPIView):
     serializer_class = PropertySerializer
 
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
-    filterset_class = PropertyFilter, ReviewFilter
-    ordering_fields = ['price', 'created_at']
+    filterset_class = PropertyFilter
+    ordering_fields = ['price', 'created_at', 'area']
     ordering = ['price']
-    search_fields = ['title', 'comment']
+    search_fields = ['title']
+
+    def get_queryset(self): # оптимизации загрузки данных продавца
+        return Property.objects.select_related('seller').all()
 
 class CreatePropertyAPIView(generics.CreateAPIView):
     serializer_class = CreatePropertySerializer
 
     permission_classes = [permissions.IsAuthenticated, CheckSellerRoleReviews]
 
+class UpdateDeletePropertyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = CreatePropertySerializer
+
+    permission_classes = [permissions.IsAuthenticated, CheckSellerRoleReviews]
+    def get_queryset(self):
+        return Property.objects.filter(seller=self.request.user)
+
 class ReviewAPIView(generics.ListAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
+    filterset_class = ReviewFilter
+    ordering_fields = ['rating', 'created_at']
+    ordering = ['-created_at']
+    search_fields = ['comment']
+
+    def get_queryset(self):
+        return Review.objects.select_related('buyer', 'seller').all()  # Оптимизация запросов
 
 class CreateReviewAPIView(generics.CreateAPIView):
     serializer_class = CreateReviewSerializer
 
     permission_classes = [permissions.IsAuthenticated, CheckBuyerRoleReviews]
+
+class  UpdateDeleteReviewAPIView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = CreateReviewSerializer
+
+    permission_classes = [permissions.IsAuthenticated, CheckBuyerRoleReviews]
+    def get_queryset(self):
+        return Review.objects.filter(buyer=self.request.user)
