@@ -1,5 +1,5 @@
 import django_filters
-from .models import Property, Review
+from .models import Property
 
 class PropertyFilter(django_filters.FilterSet):
     price = django_filters.RangeFilter()

@@ -2,7 +2,16 @@ from rest_framework import serializers
 from .models import UserProfile, Property, Review
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
+import os
+import joblib
+from django.conf import settings
 
+
+model_path = os.path.join(settings.BASE_DIR, 'model_nb.pkl')
+model = joblib.load(model_path)
+
+vector_path = os.path.join(settings.BASE_DIR, 'vector.pkl')
+vector = joblib.load(vector_path)
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -75,9 +84,13 @@ class ReviewSerializer(serializers.ModelSerializer):
     created_at = serializers.DateField(format='%d-%m-%Y %H:%M')
     buyer = UserPublicInfoSerializer(read_only=True)
     seller = UserPublicInfoSerializer(read_only=True)
+    check_comments = serializers.SerializerMethodField()
     class Meta:
         model = Review
-        fields = ('buyer', 'seller', 'rating', 'comment', 'created_at')
+        fields = ('buyer', 'seller', 'rating', 'comment', 'created_at', 'check_comments')
+
+    def get_check_comments(self, obj):
+        return model.predict(vector.transform([obj.comment]))
 
 class CreateReviewSerializer(serializers.ModelSerializer):
     class Meta:

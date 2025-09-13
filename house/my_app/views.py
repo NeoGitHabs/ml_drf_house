@@ -1,8 +1,8 @@
 from rest_framework import status, generics, permissions
-from .filters import PropertyFilter,ReviewFilter
+from .filters import PropertyFilter
 from .models import UserProfile, Property, Review
-from rest_framework.filters import SearchFilter
-from django_filters.rest_framework import DjangoFilterBackend, OrderingFilter
+from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
 from .permissions import CheckBuyerRoleReviews, CheckSellerRoleReviews
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -79,7 +79,6 @@ class ReviewAPIView(generics.ListAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
-    filterset_class = ReviewFilter
     ordering_fields = ['rating', 'created_at']
     ordering = ['-created_at']
     search_fields = ['comment']
