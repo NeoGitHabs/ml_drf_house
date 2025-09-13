@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (RegisterView, CustomLoginView, LogoutView, UserProfileAPIView,
                     PropertyAPIView, ReviewAPIView, CreatePropertyAPIView, CreateReviewAPIView,
-                    UpdateDeletePropertyAPIView, UpdateDeleteReviewAPIView)
+                    UpdateDeletePropertyAPIView, UpdateDeleteReviewAPIView, PredictPriceAPIView)
 
 
 urlpatterns = [
@@ -15,4 +15,5 @@ urlpatterns = [
     path('review/', ReviewAPIView.as_view(), name='review'),
     path('create_review/', CreateReviewAPIView.as_view(), name='create_review'),
     path('update_delete_review/', UpdateDeleteReviewAPIView.as_view(), name='update_delete_review'),
+    path('predict/', PredictPriceAPIView.as_view(), name='predict_price'),
 ]

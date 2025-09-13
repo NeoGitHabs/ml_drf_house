@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import UserProfile, Property, Review
+from .models import UserProfile, Property, Review, HousePredict
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 import os
@@ -96,3 +96,8 @@ class CreateReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ('seller', 'rating', 'comment', 'buyer')
+
+class HousePredictSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HousePredict
+        fields = '__all__'

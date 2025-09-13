@@ -1,6 +1,6 @@
 from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin
-from .models import UserProfile, Property, Review
+from .models import UserProfile, Property, Review, HousePredict
 
 @admin.register(Review)
 class TranslateAdmin(TranslationAdmin):
@@ -16,3 +16,4 @@ class TranslateAdmin(TranslationAdmin):
 
 admin.site.register(UserProfile)
 admin.site.register(Property)
+admin.site.register(HousePredict)
