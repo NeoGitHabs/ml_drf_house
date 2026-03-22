@@ -115,13 +115,23 @@ Neighborhood = ['Blueste', 'BrDale', 'BrkSide', 'ClearCr', 'CollgCr', 'Crawfor',
 class PredictPriceAPIView(views.APIView):
     def post(self, request):
         serializer = HousePredictSerializer(data=request.data)
+        
         if serializer.is_valid():
             valid_data = serializer.validated_data
-            neighborhood = valid_data.pop('Neighborhood')
+            neighborhood = valid_data.get('Neighborhood')
             data_binary = [1 if neighborhood == i else 0 for i in Neighborhood]
-            features = list(valid_data.values()) + data_binary
+            
+            features = [data['GrLivArea'],
+                        data['YearBuild'],
+                        data['GarageCars'],
+                        data['TotalBsmtSF'],
+                        data['FullBath'],
+                        data['OverallQual'],
+                        ] + data_binary
             scaled_data = scaler.transform([features])
             prediction = model.predict(scaled_data)[0]
+            
             house_data = serializer.save(predicted_price=round(prediction, 2))
+            
             return Response({'Predict': HousePredictSerializer(house_data).data}, status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
