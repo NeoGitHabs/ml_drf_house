@@ -116,7 +116,7 @@ class PredictPriceAPIView(views.APIView):
     def post(self, request):
         serializer = HousePredictSerializer(data=request.data)
         if serializer.is_valid():
-            valid_data = serializer.validated_data()
+            valid_data = serializer.validated_data
             neighborhood = valid_data.pop('Neighborhood')
             data_binary = [1 if neighborhood == i else 0 for i in Neighborhood]
             features = list(valid_data.values()) + data_binary
