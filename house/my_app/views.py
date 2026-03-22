@@ -116,16 +116,10 @@ class PredictPriceAPIView(views.APIView):
     def post(self, request):
         serializer = HousePredictSerializer(data=request.data)
         if serializer.is_valid():
-            valid_data = serializer.validated_data
-            neighborhood = valid_data.get('Neighborhood')
+            valid_data = serializer.validated_data()
+            neighborhood = valid_data.pop('Neighborhood')
             data_binary = [1 if neighborhood == i else 0 for i in Neighborhood]
-            features = [valid_data['GrLivArea'],
-                        valid_data['YearBuilt'],
-                        valid_data['GarageCars'],
-                        valid_data['TotalBsmtSF'],
-                        valid_data['FullBath'],
-                        valid_data['OverallQual']
-                        ] + data_binary
+            features = list(valid_data.values()) + data_binary
             scaled_data = scaler.transform([features])
             prediction = model.predict(scaled_data)[0]
             house_data = serializer.save(predicted_price=round(prediction, 2))
