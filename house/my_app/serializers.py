@@ -98,10 +98,10 @@ class CreateReviewSerializer(serializers.ModelSerializer):
         fields = ('seller', 'rating', 'comment', 'buyer')
 
 class HousePredictSerializer(serializers.Serializer):
-    GrLivArea = models.IntegerField()
-    YearBuilt = models.IntegerField()
-    GarageCars = models.IntegerField()
-    TotalBsmtSF = models.IntegerField()
-    FullBath = models.IntegerField()
-    OverallQual = models.IntegerField()
-    Neighborhood = models.CharField(max_length=50)
+    GrLivArea = serializers.IntegerField()
+    YearBuilt = serializers.IntegerField()
+    GarageCars = serializers.IntegerField()
+    TotalBsmtSF = serializers.IntegerField()
+    FullBath = serializers.IntegerField()
+    OverallQual = serializers.IntegerField()
+    Neighborhood = serializers.CharField(max_length=50)
