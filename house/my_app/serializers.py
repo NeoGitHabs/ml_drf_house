@@ -2,16 +2,6 @@ from rest_framework import serializers
 from .models import UserProfile, Property, Review, HousePredict
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
-import os
-import joblib
-from django.conf import settings
-
-
-model_path = os.path.join(settings.BASE_DIR, 'lin_model_House.pkl')
-house_model = joblib.load(model_path)
-
-vector_path = os.path.join(settings.BASE_DIR, 'scaler_House.pkl')
-house_scaler = joblib.load(vector_path)
 
 
 class UserSerializer(serializers.ModelSerializer):
