@@ -101,9 +101,6 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         fields = ('buyer', 'seller', 'rating', 'comment', 'created_at')
 
-    def get_check_comments(self, obj):
-        return model_path.predict(vector_path.transform([obj.comment]))
-
 class CreateReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
