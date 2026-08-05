@@ -90,8 +90,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en'
 
-USE_L10N = True
-
 LANGUAGES = [
     ('en', 'English'),
     ('ky', 'Kyrgyz'),
