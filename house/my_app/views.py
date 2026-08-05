@@ -117,10 +117,10 @@ class UpdateDeleteReviewAPIView(generics.RetrieveUpdateDestroyAPIView):
         return Review.objects.filter(buyer=self.request.user)
 
 
-Neighborhood = ['Blueste', 'BrDale', 'BrkSide', 'ClearCr', 'CollgCr', 'Crawfor',
-                'Edwards', 'Gilbert', 'IDOTRR', 'MeadowV', 'Mitchel', 'NAmes',
-                'NPkVill', 'NWAmes', 'NoRidge', 'NridgHt', 'OldTown', 'SWISU',
-                'Sawyer', 'SawyerW', 'Somerst', 'StoneBr', 'Timber', 'Veenker']
+Neighborhood = ['Blmngtn', 'Blueste', 'BrDale', 'BrkSide', 'ClearCr', 'CollgCr',
+                'Crawfor', 'Edwards', 'Gilbert', 'IDOTRR', 'MeadowV', 'Mitchel',
+                'NAmes', 'NPkVill', 'NWAmes', 'NoRidge', 'NridgHt', 'OldTown',
+                'SWISU', 'Sawyer', 'SawyerW', 'Somerst', 'StoneBr', 'Timber', 'Veenker']
 
 
 class PredictPriceAPIView(views.APIView):
