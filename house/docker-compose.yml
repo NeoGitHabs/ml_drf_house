@@ -4,7 +4,7 @@ services:
   web:
     build: .
     command: >
-      bash -c "./manage.py collectstatic --noinput && ./manage.py makemigrations && ./manage.py migrate && daphne -b 0.0.0.0 -p 8000 house.wsgi:application"
+      bash -c "./manage.py collectstatic --noinput && ./manage.py makemigrations && ./manage.py migrate && daphne -b 0.0.0.0 -p 8000 house.asgi:application"
     volumes:
       - .:/app
       - /home/ubuntu/house/house/static_files:/app/staticfiles
